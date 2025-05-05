@@ -8,7 +8,7 @@ A sleek, intuitive, and fully responsive resume builder that allows users to eff
 - [Prerequisites](#prerequisites)
 - [Usage](#usage)
 - [Available Resume Templates](#available-resume-templates)
-- [Contributing](#contributing)
+
 
 ## Features
 
@@ -43,17 +43,5 @@ A sleek, intuitive, and fully responsive resume builder that allows users to eff
 - **Minimalist**: Simple, elegant design focusing on content
 - **Executive**: Sophisticated layout for senior positions
 - **Academic**: Structured format for educational and research positions
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-Project Link: [https://github.com/yourusername/resumegen](https://github.com/yourusername/resumegen)
 
 ---
