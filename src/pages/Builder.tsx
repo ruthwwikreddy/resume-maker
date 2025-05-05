@@ -3,36 +3,71 @@ import React, { useState, useEffect } from "react";
 import { useResume } from "@/contexts/ResumeContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import ResumeForm from "@/components/builder/ResumeForm";
 import ResumePreview from "@/components/builder/ResumePreview";
 import TemplateSelector from "@/components/builder/TemplateSelector";
 import { DownloadIcon, EyeIcon, PenIcon, LayoutIcon } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 const Builder = () => {
   const { resumeData, selectedTemplate } = useResume();
   const [activeTab, setActiveTab] = useState("edit");
-  const { toast } = useToast();
   const isMobile = useIsMobile();
+  const resumePreviewRef = React.useRef<HTMLDivElement>(null);
 
   const handleDownload = async () => {
-    // This is a placeholder for PDF generation functionality
-    toast({
-      title: "Generating PDF",
+    toast.info("Generating PDF", {
       description: "Your resume is being prepared for download",
       duration: 2000,
     });
     
-    // In a real implementation, we would generate the PDF here
-    setTimeout(() => {
-      toast({
-        title: "Resume Downloaded",
-        description: "Your resume has been successfully downloaded",
+    try {
+      setTimeout(async () => {
+        const resumeElement = document.querySelector(".resume-preview-content");
+        if (!resumeElement) {
+          throw new Error("Resume element not found");
+        }
+        
+        const canvas = await html2canvas(resumeElement as HTMLElement, {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: "#ffffff",
+        });
+        
+        const imgData = canvas.toDataURL('image/png');
+        
+        const pdf = new jsPDF({
+          orientation: 'portrait',
+          unit: 'mm',
+          format: 'a4'
+        });
+        
+        const imgWidth = 210; // A4 width in mm
+        const pageHeight = 297; // A4 height in mm
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        
+        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+        
+        const fileName = `${resumeData.personalInfo.firstName}-${resumeData.personalInfo.lastName}-Resume.pdf`;
+        pdf.save(fileName);
+        
+        toast.success("Resume Downloaded", {
+          description: "Your resume has been successfully downloaded",
+          duration: 3000,
+        });
+      }, 1000);
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      toast.error("Download Failed", {
+        description: "There was a problem generating your resume PDF",
         duration: 3000,
       });
-    }, 2000);
+    }
   };
 
   useEffect(() => {
@@ -88,7 +123,11 @@ const Builder = () => {
             </TabsContent>
             
             <TabsContent value="preview" className={activeTab === "preview" ? "block" : "hidden"}>
-              <ResumePreview />
+              <div ref={resumePreviewRef} className="resume-preview-wrapper">
+                <div className="resume-preview-content">
+                  <ResumePreview />
+                </div>
+              </div>
             </TabsContent>
           </div>
         ) : (
@@ -105,8 +144,10 @@ const Builder = () => {
             
             {/* Right Side - Preview */}
             <div className="w-1/2 overflow-y-auto bg-muted p-6">
-              <div className="sticky top-0">
-                <ResumePreview />
+              <div ref={resumePreviewRef} className="sticky top-0 resume-preview-wrapper">
+                <div className="resume-preview-content">
+                  <ResumePreview />
+                </div>
               </div>
             </div>
           </div>

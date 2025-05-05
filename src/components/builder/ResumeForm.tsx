@@ -2,13 +2,14 @@
 import React, { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
-import { User, Briefcase, GraduationCap, Award, Code, Folder } from "lucide-react";
+import { User, Briefcase, GraduationCap, Award, Code, Folder, Palette } from "lucide-react";
 import PersonalInfoForm from "./sections/PersonalInfoForm";
 import EducationForm from "./sections/EducationForm";
 import ExperienceForm from "./sections/ExperienceForm";
 import SkillsForm from "./sections/SkillsForm";
 import ProjectsForm from "./sections/ProjectsForm";
 import CertificationsForm from "./sections/CertificationsForm";
+import ColorPickerForm from "./ColorPickerForm";
 
 const ResumeForm = () => {
   const [activeTab, setActiveTab] = useState("personalInfo");
@@ -16,7 +17,7 @@ const ResumeForm = () => {
   return (
     <div className="space-y-6">
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid grid-cols-3 md:grid-cols-6">
+        <TabsList className="grid grid-cols-3 md:grid-cols-7">
           <TabsTrigger value="personalInfo" className="flex items-center gap-2 data-[state=active]:bg-resume-blue data-[state=active]:text-white">
             <User className="h-4 w-4" />
             <span className="hidden md:inline">Personal</span>
@@ -46,6 +47,11 @@ const ResumeForm = () => {
             <Award className="h-4 w-4" />
             <span className="hidden md:inline">Certs</span>
           </TabsTrigger>
+          
+          <TabsTrigger value="colors" className="flex items-center gap-2 data-[state=active]:bg-resume-blue data-[state=active]:text-white">
+            <Palette className="h-4 w-4" />
+            <span className="hidden md:inline">Colors</span>
+          </TabsTrigger>
         </TabsList>
         
         <div className="mt-6">
@@ -72,6 +78,10 @@ const ResumeForm = () => {
           <TabsContent value="certifications">
             <CertificationsForm />
           </TabsContent>
+          
+          <TabsContent value="colors">
+            <ColorPickerForm />
+          </TabsContent>
         </div>
       </Tabs>
       
@@ -80,7 +90,7 @@ const ResumeForm = () => {
       <div className="flex justify-between">
         <button
           onClick={() => {
-            const tabs = ["personalInfo", "experience", "education", "skills", "projects", "certifications"];
+            const tabs = ["personalInfo", "experience", "education", "skills", "projects", "certifications", "colors"];
             const currentIndex = tabs.indexOf(activeTab);
             if (currentIndex > 0) {
               setActiveTab(tabs[currentIndex - 1]);
@@ -94,14 +104,14 @@ const ResumeForm = () => {
         
         <button
           onClick={() => {
-            const tabs = ["personalInfo", "experience", "education", "skills", "projects", "certifications"];
+            const tabs = ["personalInfo", "experience", "education", "skills", "projects", "certifications", "colors"];
             const currentIndex = tabs.indexOf(activeTab);
             if (currentIndex < tabs.length - 1) {
               setActiveTab(tabs[currentIndex + 1]);
             }
           }}
           className="px-4 py-2 text-resume-blue hover:text-resume-blue/80 transition-colors"
-          disabled={activeTab === "certifications"}
+          disabled={activeTab === "colors"}
         >
           Next
         </button>

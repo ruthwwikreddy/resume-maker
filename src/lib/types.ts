@@ -84,3 +84,10 @@ export interface ResumeData {
   languages?: { language: string; proficiency: string }[];
   references?: { name: string; company: string; position: string; email: string; phone: string }[];
 }
+
+export interface ColorScheme {
+  primary: string;
+  secondary: string;
+  background: string;
+  text: string;
+}

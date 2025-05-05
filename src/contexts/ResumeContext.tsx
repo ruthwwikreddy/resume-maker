@@ -3,6 +3,20 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { defaultResumeData } from "@/lib/constants";
 import type { ResumeData, TemplateName } from "@/lib/types";
 
+export type ColorScheme = {
+  primary: string;
+  secondary: string;
+  background: string;
+  text: string;
+};
+
+export const DEFAULT_COLOR_SCHEME: ColorScheme = {
+  primary: "#007BFF",
+  secondary: "#222222",
+  background: "#FFFFFF",
+  text: "#333333"
+};
+
 interface ResumeContextType {
   resumeData: ResumeData;
   updateResumeData: (data: Partial<ResumeData>) => void;
@@ -25,6 +39,8 @@ interface ResumeContextType {
   ) => void;
   selectedTemplate: TemplateName;
   setSelectedTemplate: (template: TemplateName) => void;
+  colorScheme: ColorScheme;
+  setColorScheme: (scheme: ColorScheme) => void;
   resetResumeData: () => void;
 }
 
@@ -43,11 +59,13 @@ export const ResumeProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [resumeData, setResumeData] = useState<ResumeData>(defaultResumeData);
   const [selectedTemplate, setSelectedTemplate] = useState<TemplateName>("modern");
+  const [colorScheme, setColorScheme] = useState<ColorScheme>(DEFAULT_COLOR_SCHEME);
 
   // Load saved data from localStorage on initial render
   useEffect(() => {
     const savedData = localStorage.getItem("resumeData");
     const savedTemplate = localStorage.getItem("selectedTemplate");
+    const savedColorScheme = localStorage.getItem("colorScheme");
     
     if (savedData) {
       try {
@@ -62,6 +80,16 @@ export const ResumeProvider: React.FC<{ children: React.ReactNode }> = ({
     if (savedTemplate) {
       setSelectedTemplate(savedTemplate as TemplateName);
     }
+    
+    if (savedColorScheme) {
+      try {
+        setColorScheme(JSON.parse(savedColorScheme));
+      } catch (e) {
+        console.error("Failed to parse saved color scheme:", e);
+        // If parsing fails, use default color scheme
+        setColorScheme(DEFAULT_COLOR_SCHEME);
+      }
+    }
   }, []);
 
   // Save data to localStorage whenever it changes
@@ -73,6 +101,11 @@ export const ResumeProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     localStorage.setItem("selectedTemplate", selectedTemplate);
   }, [selectedTemplate]);
+  
+  // Save color scheme whenever it changes
+  useEffect(() => {
+    localStorage.setItem("colorScheme", JSON.stringify(colorScheme));
+  }, [colorScheme]);
 
   const updateResumeData = (data: Partial<ResumeData>) => {
     setResumeData((prev) => ({ ...prev, ...data }));
@@ -150,6 +183,8 @@ export const ResumeProvider: React.FC<{ children: React.ReactNode }> = ({
         removeListItem,
         selectedTemplate,
         setSelectedTemplate,
+        colorScheme,
+        setColorScheme,
         resetResumeData,
       }}
     >
