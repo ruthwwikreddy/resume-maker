@@ -25,12 +25,6 @@ const Navbar = () => {
           <Link to="/templates" className="text-gray-300 hover:text-resume-blue transition-colors">
             Templates
           </Link>
-          <Button variant="ghost" className="text-gray-300 hover:text-resume-blue hover:bg-background">
-            Sign In
-          </Button>
-          <Button className="bg-resume-blue hover:bg-resume-blue/90 text-white">
-            Sign Up
-          </Button>
         </div>
         
         {/* Mobile Menu Button */}
@@ -75,14 +69,6 @@ const Navbar = () => {
             >
               Templates
             </Link>
-            <div className="flex flex-col space-y-2 pt-4 border-t border-border">
-              <Button variant="ghost" className="justify-start text-gray-300 hover:text-resume-blue hover:bg-background">
-                Sign In
-              </Button>
-              <Button className="bg-resume-blue hover:bg-resume-blue/90 text-white">
-                Sign Up
-              </Button>
-            </div>
           </div>
         </div>
       )}
