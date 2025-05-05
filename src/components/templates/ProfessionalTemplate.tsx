@@ -3,42 +3,44 @@ import React from "react";
 import { ResumeData } from "@/lib/types";
 import { TEMPLATE_FONTS } from "@/lib/constants";
 import { formatDate } from "@/lib/utils";
+import { ColorScheme } from "@/contexts/ResumeContext";
 
 interface ProfessionalTemplateProps {
   data: ResumeData;
+  colorScheme: ColorScheme;
 }
 
-const ProfessionalTemplate: React.FC<ProfessionalTemplateProps> = ({ data }) => {
+const ProfessionalTemplate: React.FC<ProfessionalTemplateProps> = ({ data, colorScheme }) => {
   const { personalInfo, education, experience, skills, certifications, projects } = data;
   const { heading, body } = TEMPLATE_FONTS.professional;
 
   return (
-    <div className="bg-white text-black h-full">
+    <div className="bg-white text-black h-full" style={{ backgroundColor: colorScheme.background, color: colorScheme.text }}>
       {/* Header */}
-      <div className="bg-[#222222] text-white p-8">
+      <div className="bg-[#222222] text-white p-8" style={{ backgroundColor: colorScheme.secondary, color: "#ffffff" }}>
         <h1 className="text-3xl font-bold mb-1 text-center">
           {personalInfo.firstName} {personalInfo.lastName}
         </h1>
-        <p className="text-lg text-[#007BFF] text-center mb-4">{personalInfo.title}</p>
+        <p className="text-lg text-center mb-4" style={{ color: colorScheme.primary }}>{personalInfo.title}</p>
         
         <div className="flex flex-wrap justify-center gap-4 text-sm">
           <div className="flex items-center space-x-1">
-            <span className="text-[#007BFF]">Email:</span>
+            <span style={{ color: colorScheme.primary }}>Email:</span>
             <span>{personalInfo.email}</span>
           </div>
           <div className="flex items-center space-x-1">
-            <span className="text-[#007BFF]">Phone:</span>
+            <span style={{ color: colorScheme.primary }}>Phone:</span>
             <span>{personalInfo.phone}</span>
           </div>
           {personalInfo.linkedin && (
             <div className="flex items-center space-x-1">
-              <span className="text-[#007BFF]">LinkedIn:</span>
+              <span style={{ color: colorScheme.primary }}>LinkedIn:</span>
               <span>{personalInfo.linkedin}</span>
             </div>
           )}
           {personalInfo.github && (
             <div className="flex items-center space-x-1">
-              <span className="text-[#007BFF]">GitHub:</span>
+              <span style={{ color: colorScheme.primary }}>GitHub:</span>
               <span>{personalInfo.github}</span>
             </div>
           )}
@@ -49,7 +51,8 @@ const ProfessionalTemplate: React.FC<ProfessionalTemplateProps> = ({ data }) => 
       <div className="p-8">
         {/* Summary */}
         <div className="mb-6">
-          <h2 className="text-xl font-bold mb-3 text-[#007BFF] border-b-2 border-[#007BFF] pb-2">
+          <h2 className="text-xl font-bold mb-3 border-b-2 pb-2" 
+              style={{ color: colorScheme.primary, borderColor: colorScheme.primary }}>
             Professional Summary
           </h2>
           <p>{personalInfo.summary}</p>
@@ -57,7 +60,8 @@ const ProfessionalTemplate: React.FC<ProfessionalTemplateProps> = ({ data }) => 
 
         {/* Experience */}
         <div className="mb-6">
-          <h2 className="text-xl font-bold mb-3 text-[#007BFF] border-b-2 border-[#007BFF] pb-2">
+          <h2 className="text-xl font-bold mb-3 border-b-2 pb-2"
+              style={{ color: colorScheme.primary, borderColor: colorScheme.primary }}>
             Professional Experience
           </h2>
           <div className="space-y-5">
@@ -88,7 +92,8 @@ const ProfessionalTemplate: React.FC<ProfessionalTemplateProps> = ({ data }) => 
 
         {/* Education */}
         <div className="mb-6">
-          <h2 className="text-xl font-bold mb-3 text-[#007BFF] border-b-2 border-[#007BFF] pb-2">
+          <h2 className="text-xl font-bold mb-3 border-b-2 pb-2"
+              style={{ color: colorScheme.primary, borderColor: colorScheme.primary }}>
             Education
           </h2>
           <div className="space-y-4">
@@ -113,13 +118,14 @@ const ProfessionalTemplate: React.FC<ProfessionalTemplateProps> = ({ data }) => 
         <div className="grid grid-cols-2 gap-8">
           {/* Skills */}
           <div className="mb-6">
-            <h2 className="text-xl font-bold mb-3 text-[#007BFF] border-b-2 border-[#007BFF] pb-2">
+            <h2 className="text-xl font-bold mb-3 border-b-2 pb-2"
+                style={{ color: colorScheme.primary, borderColor: colorScheme.primary }}>
               Skills
             </h2>
             <div className="grid grid-cols-2 gap-2">
               {skills.map((skill) => (
                 <div key={skill.id} className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-[#007BFF] rounded-full"></div>
+                  <div className="w-2 h-2 rounded-full" style={{ backgroundColor: colorScheme.primary }}></div>
                   <span>{skill.name}</span>
                 </div>
               ))}
@@ -129,7 +135,8 @@ const ProfessionalTemplate: React.FC<ProfessionalTemplateProps> = ({ data }) => 
           {/* Certifications */}
           {certifications.length > 0 && (
             <div className="mb-6">
-              <h2 className="text-xl font-bold mb-3 text-[#007BFF] border-b-2 border-[#007BFF] pb-2">
+              <h2 className="text-xl font-bold mb-3 border-b-2 pb-2"
+                  style={{ color: colorScheme.primary, borderColor: colorScheme.primary }}>
                 Certifications
               </h2>
               <div className="space-y-3">
@@ -152,7 +159,8 @@ const ProfessionalTemplate: React.FC<ProfessionalTemplateProps> = ({ data }) => 
         {/* Projects */}
         {projects.length > 0 && (
           <div>
-            <h2 className="text-xl font-bold mb-3 text-[#007BFF] border-b-2 border-[#007BFF] pb-2">
+            <h2 className="text-xl font-bold mb-3 border-b-2 pb-2"
+                style={{ color: colorScheme.primary, borderColor: colorScheme.primary }}>
               Projects
             </h2>
             <div className="space-y-4">

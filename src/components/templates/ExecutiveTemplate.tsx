@@ -3,23 +3,25 @@ import React from "react";
 import { ResumeData } from "@/lib/types";
 import { TEMPLATE_FONTS } from "@/lib/constants";
 import { formatDate } from "@/lib/utils";
+import { ColorScheme } from "@/contexts/ResumeContext";
 
 interface ExecutiveTemplateProps {
   data: ResumeData;
+  colorScheme: ColorScheme;
 }
 
-const ExecutiveTemplate: React.FC<ExecutiveTemplateProps> = ({ data }) => {
+const ExecutiveTemplate: React.FC<ExecutiveTemplateProps> = ({ data, colorScheme }) => {
   const { personalInfo, education, experience, skills, certifications, projects } = data;
   const { heading, body } = TEMPLATE_FONTS.executive;
 
   return (
-    <div className="bg-white text-[#333] h-full">
+    <div className="h-full" style={{ background: colorScheme.background, color: colorScheme.text }}>
       {/* Header */}
-      <div className="bg-[#222222] text-white px-8 py-10 relative">
+      <div className="px-8 py-10 relative text-white" style={{ backgroundColor: colorScheme.secondary }}>
         <h1 className="text-4xl font-bold">
           {personalInfo.firstName} {personalInfo.lastName}
         </h1>
-        <p className="text-xl text-[#007BFF] mt-1 mb-4">{personalInfo.title}</p>
+        <p className="text-xl mt-1 mb-4" style={{ color: colorScheme.primary }}>{personalInfo.title}</p>
         
         <div className="absolute right-8 bottom-4 text-right">
           <p className="mb-1">{personalInfo.email}</p>
@@ -31,7 +33,8 @@ const ExecutiveTemplate: React.FC<ExecutiveTemplateProps> = ({ data }) => {
       <div className="px-8 py-6">
         {/* Summary with executive style */}
         <div className="mb-8">
-          <h2 className="text-xl font-bold mb-4 text-[#222222] uppercase tracking-wider border-b-2 border-[#007BFF] pb-2">
+          <h2 className="text-xl font-bold mb-4 uppercase tracking-wider pb-2 border-b-2" 
+              style={{ color: colorScheme.secondary, borderColor: colorScheme.primary }}>
             Executive Summary
           </h2>
           <p className="leading-relaxed">{personalInfo.summary}</p>
@@ -39,7 +42,8 @@ const ExecutiveTemplate: React.FC<ExecutiveTemplateProps> = ({ data }) => {
         
         {/* Professional Experience */}
         <div className="mb-8">
-          <h2 className="text-xl font-bold mb-4 text-[#222222] uppercase tracking-wider border-b-2 border-[#007BFF] pb-2">
+          <h2 className="text-xl font-bold mb-4 uppercase tracking-wider pb-2 border-b-2"
+              style={{ color: colorScheme.secondary, borderColor: colorScheme.primary }}>
             Professional Experience
           </h2>
           <div className="space-y-6">
@@ -51,7 +55,7 @@ const ExecutiveTemplate: React.FC<ExecutiveTemplateProps> = ({ data }) => {
                     {formatDate(exp.startDate)} - {exp.current ? "Present" : formatDate(exp.endDate)}
                   </p>
                 </div>
-                <p className="text-[#007BFF] font-semibold mb-2">
+                <p className="font-semibold mb-2" style={{ color: colorScheme.primary }}>
                   {exp.company} {exp.location && `| ${exp.location}`}
                 </p>
                 <p className="mb-3">{exp.description}</p>
@@ -73,14 +77,15 @@ const ExecutiveTemplate: React.FC<ExecutiveTemplateProps> = ({ data }) => {
         <div className="grid grid-cols-2 gap-8">
           {/* Education */}
           <div className="mb-6">
-            <h2 className="text-xl font-bold mb-4 text-[#222222] uppercase tracking-wider border-b-2 border-[#007BFF] pb-2">
+            <h2 className="text-xl font-bold mb-4 uppercase tracking-wider pb-2 border-b-2"
+                style={{ color: colorScheme.secondary, borderColor: colorScheme.primary }}>
               Education
             </h2>
             <div className="space-y-4">
               {education.map((edu) => (
                 <div key={edu.id}>
                   <h3 className="font-bold">{edu.institution}</h3>
-                  <p className="text-[#007BFF]">{edu.degree}, {edu.field}</p>
+                  <p style={{ color: colorScheme.primary }}>{edu.degree}, {edu.field}</p>
                   <p className="text-sm">
                     {formatDate(edu.startDate)} - {formatDate(edu.endDate)}
                   </p>
@@ -92,13 +97,14 @@ const ExecutiveTemplate: React.FC<ExecutiveTemplateProps> = ({ data }) => {
 
           {/* Skills */}
           <div className="mb-6">
-            <h2 className="text-xl font-bold mb-4 text-[#222222] uppercase tracking-wider border-b-2 border-[#007BFF] pb-2">
+            <h2 className="text-xl font-bold mb-4 uppercase tracking-wider pb-2 border-b-2"
+                style={{ color: colorScheme.secondary, borderColor: colorScheme.primary }}>
               Areas of Expertise
             </h2>
             <div className="grid grid-cols-2 gap-y-2 gap-x-4">
               {skills.map((skill) => (
                 <div key={skill.id} className="flex items-center">
-                  <div className="w-1.5 h-1.5 bg-[#007BFF] mr-2"></div>
+                  <div className="w-1.5 h-1.5 mr-2" style={{ backgroundColor: colorScheme.primary }}></div>
                   <span>{skill.name}</span>
                 </div>
               ))}
@@ -110,12 +116,13 @@ const ExecutiveTemplate: React.FC<ExecutiveTemplateProps> = ({ data }) => {
           {/* Projects */}
           {projects.length > 0 && (
             <div className="mb-6">
-              <h2 className="text-xl font-bold mb-4 text-[#222222] uppercase tracking-wider border-b-2 border-[#007BFF] pb-2">
+              <h2 className="text-xl font-bold mb-4 uppercase tracking-wider pb-2 border-b-2"
+                  style={{ color: colorScheme.secondary, borderColor: colorScheme.primary }}>
                 Strategic Projects
               </h2>
               <div className="space-y-4">
                 {projects.map((project) => (
-                  <div key={project.id} className="border-l-4 border-[#007BFF] pl-4">
+                  <div key={project.id} className="pl-4 border-l-4" style={{ borderColor: colorScheme.primary }}>
                     <h3 className="font-bold">{project.name}</h3>
                     <p className="mb-1">{project.description}</p>
                     {project.technologies && project.technologies.length > 0 && (
@@ -132,7 +139,8 @@ const ExecutiveTemplate: React.FC<ExecutiveTemplateProps> = ({ data }) => {
           {/* Certifications */}
           {certifications.length > 0 && (
             <div>
-              <h2 className="text-xl font-bold mb-4 text-[#222222] uppercase tracking-wider border-b-2 border-[#007BFF] pb-2">
+              <h2 className="text-xl font-bold mb-4 uppercase tracking-wider pb-2 border-b-2"
+                  style={{ color: colorScheme.secondary, borderColor: colorScheme.primary }}>
                 Professional Certifications
               </h2>
               <div className="space-y-3">

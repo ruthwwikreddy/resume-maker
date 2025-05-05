@@ -3,23 +3,25 @@ import React from "react";
 import { ResumeData } from "@/lib/types";
 import { TEMPLATE_FONTS } from "@/lib/constants";
 import { formatDate } from "@/lib/utils";
+import { ColorScheme } from "@/contexts/ResumeContext";
 
 interface MinimalTemplateProps {
   data: ResumeData;
+  colorScheme: ColorScheme;
 }
 
-const MinimalTemplate: React.FC<MinimalTemplateProps> = ({ data }) => {
+const MinimalTemplate: React.FC<MinimalTemplateProps> = ({ data, colorScheme }) => {
   const { personalInfo, education, experience, skills, certifications, projects } = data;
   const { heading, body } = TEMPLATE_FONTS.minimal;
 
   return (
-    <div className="bg-white text-[#333] h-full p-10">
+    <div className="h-full p-10" style={{ background: colorScheme.background, color: colorScheme.text }}>
       {/* Header */}
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold mb-1">
           {personalInfo.firstName} {personalInfo.lastName}
         </h1>
-        <p className="text-[#007BFF] mb-2">{personalInfo.title}</p>
+        <p className="mb-2" style={{ color: colorScheme.primary }}>{personalInfo.title}</p>
         <div className="flex flex-wrap justify-center gap-x-4 text-sm">
           <span>{personalInfo.email}</span>
           <span>{personalInfo.phone}</span>
@@ -30,12 +32,14 @@ const MinimalTemplate: React.FC<MinimalTemplateProps> = ({ data }) => {
 
       {/* Summary */}
       <div className="mb-6">
-        <p className="border-l-4 border-[#007BFF] pl-4 italic">{personalInfo.summary}</p>
+        <p className="pl-4 italic" style={{ borderLeftWidth: "4px", borderLeftColor: colorScheme.primary }}>
+          {personalInfo.summary}
+        </p>
       </div>
 
       {/* Experience */}
       <div className="mb-6">
-        <h2 className="text-lg font-semibold mb-3 text-[#007BFF] uppercase tracking-wider">
+        <h2 className="text-lg font-semibold mb-3 uppercase tracking-wider" style={{ color: colorScheme.primary }}>
           Experience
         </h2>
         <div className="space-y-4">
@@ -63,7 +67,7 @@ const MinimalTemplate: React.FC<MinimalTemplateProps> = ({ data }) => {
 
       {/* Education */}
       <div className="mb-6">
-        <h2 className="text-lg font-semibold mb-3 text-[#007BFF] uppercase tracking-wider">
+        <h2 className="text-lg font-semibold mb-3 uppercase tracking-wider" style={{ color: colorScheme.primary }}>
           Education
         </h2>
         <div className="space-y-3">
@@ -84,14 +88,15 @@ const MinimalTemplate: React.FC<MinimalTemplateProps> = ({ data }) => {
 
       {/* Skills */}
       <div className="mb-6">
-        <h2 className="text-lg font-semibold mb-3 text-[#007BFF] uppercase tracking-wider">
+        <h2 className="text-lg font-semibold mb-3 uppercase tracking-wider" style={{ color: colorScheme.primary }}>
           Skills
         </h2>
         <div className="flex flex-wrap gap-2">
           {skills.map((skill) => (
             <span
               key={skill.id}
-              className="inline-block px-2 py-1 text-sm border border-[#007BFF] rounded-full"
+              className="inline-block px-2 py-1 text-sm rounded-full"
+              style={{ border: `1px solid ${colorScheme.primary}` }}
             >
               {skill.name}
             </span>
@@ -102,7 +107,7 @@ const MinimalTemplate: React.FC<MinimalTemplateProps> = ({ data }) => {
       {/* Projects */}
       {projects.length > 0 && (
         <div className="mb-6">
-          <h2 className="text-lg font-semibold mb-3 text-[#007BFF] uppercase tracking-wider">
+          <h2 className="text-lg font-semibold mb-3 uppercase tracking-wider" style={{ color: colorScheme.primary }}>
             Projects
           </h2>
           <div className="space-y-3">
@@ -133,7 +138,7 @@ const MinimalTemplate: React.FC<MinimalTemplateProps> = ({ data }) => {
       {/* Certifications */}
       {certifications.length > 0 && (
         <div>
-          <h2 className="text-lg font-semibold mb-3 text-[#007BFF] uppercase tracking-wider">
+          <h2 className="text-lg font-semibold mb-3 uppercase tracking-wider" style={{ color: colorScheme.primary }}>
             Certifications
           </h2>
           <div className="grid grid-cols-2 gap-3">
