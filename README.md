@@ -1,73 +1,60 @@
-# Welcome to your Lovable project
+# Resume Generator
 
-## Project info
+A sleek, intuitive, and fully responsive resume builder that allows users to effortlessly create and download professional resumes.
 
-**URL**: https://lovable.dev/projects/a5210a7c-fbd8-483e-aa93-2c2b29282c4a
+## Table of Contents
 
-## How can I edit this code?
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Usage](#usage)
+- [Available Resume Templates](#available-resume-templates)
+- [Contributing](#contributing)
 
-There are several ways of editing your application.
+## Features
 
-**Use Lovable**
+- **User-Friendly Interface**: Step-by-step form to input personal details, education, work experience, skills, and achievements
+- **Customizable Sections**: Add or remove sections based on individual needs
+- **Template Selection**: Choose from multiple modern, visually appealing resume templates for different professions
+- **Real-Time Preview**: Live updating preview of the final resume as information is entered
+- **One-Click Download**: Instant generation and download of high-quality PDF resumes
+- **Responsive Design**: Mobile-friendly interface accessible across all devices
+- **Light/Dark Mode**: Toggle between visual preferences
+- **Autosave Functionality**: Prevents loss of progress
+- **Basic Account System**: Optional accounts for saving and editing resumes over time
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/a5210a7c-fbd8-483e-aa93-2c2b29282c4a) and start prompting.
+### Prerequisites
 
-Changes made via Lovable will be committed automatically to this repo.
+- Node.js (v14.0.0 or higher)
+- npm (v6.0.0 or higher)
 
-**Use your preferred IDE**
+## Usage
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+1. **Select a Template**: Choose from various professional resume templates.
+2. **Fill in Your Information**: Follow the step-by-step form to input your details.
+3. **Customize Sections**: Add, remove, or rearrange sections as needed.
+4. **Preview Your Resume**: See real-time updates as you make changes.
+5. **Download**: Generate and download your resume as a PDF with one click.
+6. **(Optional) Create an Account**: Save your resume to edit later.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## Available Resume Templates
 
-Follow these steps:
+- **Professional**: A clean, traditional layout suitable for most industries
+- **Modern**: Contemporary design with subtle design elements
+- **Creative**: Bold layout for design-oriented professions
+- **Minimalist**: Simple, elegant design focusing on content
+- **Executive**: Sophisticated layout for senior positions
+- **Academic**: Structured format for educational and research positions
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## Contributing
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-# Step 3: Install the necessary dependencies.
-npm i
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+Project Link: [https://github.com/yourusername/resumegen](https://github.com/yourusername/resumegen)
 
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/a5210a7c-fbd8-483e-aa93-2c2b29282c4a) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+---
