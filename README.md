@@ -34,7 +34,6 @@ A sleek, intuitive, and fully responsive resume builder that allows users to eff
 3. **Customize Sections**: Add, remove, or rearrange sections as needed.
 4. **Preview Your Resume**: See real-time updates as you make changes.
 5. **Download**: Generate and download your resume as a PDF with one click.
-6. **(Optional) Create an Account**: Save your resume to edit later.
 
 ## Available Resume Templates
 
