@@ -1,127 +1,130 @@
 
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FeatureCard from "@/components/FeatureCard";
+import { ArrowRight } from "lucide-react";
 
 const Index = () => {
-  // Examples of resume templates for the hero section
-  const templatePreviews = [
-    { name: "Modern", image: "/modern-template.png" },
-    { name: "Professional", image: "/professional-template.png" },
-    { name: "Creative", image: "/creative-template.png" },
-  ];
-  
-  // Feature list
   const features = [
     {
       title: "Professional Templates",
-      description: "Choose from 5+ expertly designed resume templates that stand out from the crowd.",
+      description: "Five expertly crafted templates designed to pass ATS systems and impress recruiters.",
       icon: "layout",
     },
     {
       title: "Real-time Preview",
-      description: "See changes to your resume immediately as you type, with no delays.",
+      description: "Watch your resume come to life instantly as you type. No delays, no refreshes.",
       icon: "eye",
     },
     {
       title: "Easy Customization",
-      description: "Add, edit, and rearrange sections with simple drag-and-drop functionality.",
+      description: "Intuitive controls to add, edit, and rearrange every section of your resume.",
       icon: "settings",
     },
     {
-      title: "Download as PDF",
-      description: "Export your finished resume as a high-quality, print-ready PDF file.",
+      title: "PDF Export",
+      description: "Download a pixel-perfect, print-ready PDF with a single click.",
       icon: "file-text",
     },
     {
       title: "Auto-Save",
-      description: "Never lose your progress with automatic saving to your local storage.",
+      description: "Your progress is saved automatically. Pick up right where you left off.",
       icon: "save",
     },
     {
-      title: "Mobile Friendly",
-      description: "Create and edit your resume on any device with our responsive design.",
+      title: "Fully Responsive",
+      description: "Build and edit your resume on any device — desktop, tablet, or phone.",
       icon: "smartphone",
     },
   ];
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
-      
-      {/* Hero Section */}
-      <section className="relative px-6 py-24 md:py-32 flex flex-col items-center justify-center text-center">
-        <div className="absolute inset-0 bg-gradient-to-b from-background to-background/80 z-0"></div>
-        <div className="container relative z-10 max-w-4xl">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white">
-            Create Your Professional Resume <span className="text-resume-blue">in Minutes</span>
+
+      {/* Hero */}
+      <section className="pt-32 pb-24 md:pt-44 md:pb-32 px-6">
+        <div className="container mx-auto max-w-4xl">
+          <div className="fade-up">
+            <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-6">
+              Resume Builder
+            </p>
+          </div>
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-foreground tracking-tight leading-[0.95] mb-8 fade-up fade-up-delay-1">
+            Build resumes<br />
+            that get noticed.
           </h1>
-          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            ResumeGen helps you build beautiful, ATS-friendly resumes that stand out from the crowd and land you interviews.
+          <p className="text-lg md:text-xl text-muted-foreground max-w-xl leading-relaxed mb-12 fade-up fade-up-delay-2">
+            Create clean, professional resumes in minutes. Preview in real-time. Download as PDF. No account required.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/builder">
-              <Button size="lg" className="bg-resume-blue hover:bg-resume-blue/90 text-white px-8 py-6 text-lg">
-                Create My Resume
-              </Button>
+          <div className="flex flex-col sm:flex-row gap-4 fade-up fade-up-delay-3">
+            <Link
+              to="/builder"
+              className="inline-flex items-center justify-center gap-3 bg-foreground text-background px-8 py-4 text-sm font-medium hover:opacity-90 transition-opacity duration-300"
+            >
+              Start Building
+              <ArrowRight className="h-4 w-4" />
             </Link>
-            <Button variant="outline" size="lg" className="border-resume-blue text-resume-blue hover:bg-resume-blue/10 px-8 py-6 text-lg">
-              Browse Templates
-            </Button>
+            <Link
+              to="/templates"
+              className="inline-flex items-center justify-center border border-foreground/20 text-foreground px-8 py-4 text-sm font-medium hover:border-foreground/60 transition-all duration-300"
+            >
+              View Templates
+            </Link>
           </div>
         </div>
-        
-        {/* Template Previews */}
-        <div className="mt-16 flex gap-4 overflow-hidden justify-center w-full">
-          {templatePreviews.map((template, index) => (
-            <div 
-              key={index}
-              className="relative w-64 h-80 bg-card rounded-lg overflow-hidden shadow-xl transition-all hover:scale-105 hover:shadow-resume-blue/20"
-            >
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-70"></div>
-              <div className="absolute bottom-4 left-4">
-                <p className="font-medium text-white">{template.name} Template</p>
-              </div>
-            </div>
-          ))}
-        </div>
       </section>
-      
-      {/* Features Section */}
-      <section className="py-20 px-6">
+
+      {/* Divider */}
+      <div className="container mx-auto px-6">
+        <div className="border-t border-border/30" />
+      </div>
+
+      {/* Features */}
+      <section className="py-24 md:py-32 px-6">
         <div className="container mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
-            Powerful Features for a <span className="text-resume-blue">Perfect Resume</span>
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="max-w-2xl mb-16">
+            <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-4">Features</p>
+            <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight leading-tight">
+              Everything you need,<br />nothing you don't.
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border/30">
             {features.map((feature, index) => (
-              <FeatureCard key={index} {...feature} />
+              <div key={index} className="bg-background">
+                <FeatureCard {...feature} />
+              </div>
             ))}
           </div>
         </div>
       </section>
-      
-      {/* CTA Section */}
-      <section className="py-20 px-6 bg-card">
-        <div className="container mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Ready to Build Your <span className="text-resume-blue">Perfect Resume?</span>
+
+      {/* Divider */}
+      <div className="container mx-auto px-6">
+        <div className="border-t border-border/30" />
+      </div>
+
+      {/* CTA */}
+      <section className="py-24 md:py-32 px-6">
+        <div className="container mx-auto max-w-3xl text-center">
+          <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight mb-6">
+            Ready to begin?
           </h2>
-          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Join thousands of job seekers who have created standout resumes and landed their dream jobs.
+          <p className="text-lg text-muted-foreground mb-10 max-w-lg mx-auto leading-relaxed">
+            Join thousands who've built standout resumes and landed interviews.
           </p>
-          <Link to="/builder">
-            <Button size="lg" className="bg-resume-blue hover:bg-resume-blue/90 text-white px-8 py-6 text-lg">
-              Get Started Now
-            </Button>
+          <Link
+            to="/builder"
+            className="inline-flex items-center justify-center gap-3 bg-foreground text-background px-10 py-4 text-sm font-medium hover:opacity-90 transition-opacity duration-300"
+          >
+            Create Your Resume
+            <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
       </section>
-      
+
       <Footer />
     </div>
   );

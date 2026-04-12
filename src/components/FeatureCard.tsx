@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { Card, CardContent } from "@/components/ui/card";
 import { 
   Layout, Eye, Settings, FileText, Save, Smartphone, 
   User, Briefcase, GraduationCap, Award, Code, Folder
@@ -12,46 +11,31 @@ interface FeatureCardProps {
   icon: string;
 }
 
+const iconMap: Record<string, React.ElementType> = {
+  layout: Layout,
+  eye: Eye,
+  settings: Settings,
+  "file-text": FileText,
+  save: Save,
+  smartphone: Smartphone,
+  user: User,
+  briefcase: Briefcase,
+  "graduation-cap": GraduationCap,
+  code: Code,
+  folder: Folder,
+};
+
 const FeatureCard: React.FC<FeatureCardProps> = ({ title, description, icon }) => {
-  const getIcon = () => {
-    switch (icon) {
-      case "layout":
-        return <Layout className="h-6 w-6 text-resume-blue" />;
-      case "eye":
-        return <Eye className="h-6 w-6 text-resume-blue" />;
-      case "settings":
-        return <Settings className="h-6 w-6 text-resume-blue" />;
-      case "file-text":
-        return <FileText className="h-6 w-6 text-resume-blue" />;
-      case "save":
-        return <Save className="h-6 w-6 text-resume-blue" />;
-      case "smartphone":
-        return <Smartphone className="h-6 w-6 text-resume-blue" />;
-      case "user":
-        return <User className="h-6 w-6 text-resume-blue" />;
-      case "briefcase":
-        return <Briefcase className="h-6 w-6 text-resume-blue" />;
-      case "graduation-cap":
-        return <GraduationCap className="h-6 w-6 text-resume-blue" />;
-      case "code":
-        return <Code className="h-6 w-6 text-resume-blue" />;
-      case "folder":
-        return <Folder className="h-6 w-6 text-resume-blue" />;
-      default:
-        return <Award className="h-6 w-6 text-resume-blue" />;
-    }
-  };
+  const Icon = iconMap[icon] || Award;
 
   return (
-    <Card className="bg-card border border-border hover:border-resume-blue transition-all duration-300 hover:shadow-md">
-      <CardContent className="pt-6">
-        <div className="mb-4">
-          {getIcon()}
-        </div>
-        <h3 className="text-xl font-semibold mb-2 text-white">{title}</h3>
-        <p className="text-gray-400">{description}</p>
-      </CardContent>
-    </Card>
+    <div className="group border border-border/50 p-8 hover:border-foreground/30 transition-all duration-500">
+      <div className="mb-6">
+        <Icon className="h-5 w-5 text-foreground opacity-60 group-hover:opacity-100 transition-opacity duration-300" strokeWidth={1.5} />
+      </div>
+      <h3 className="text-lg font-medium text-foreground mb-3 tracking-tight">{title}</h3>
+      <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
+    </div>
   );
 };
 
