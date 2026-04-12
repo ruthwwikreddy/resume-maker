@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { 
-  Layout, Eye, Settings, FileText, Save, Smartphone, 
+import {
+  Layout, Eye, Settings, FileText, Save, Smartphone,
   User, Briefcase, GraduationCap, Award, Code, Folder
 } from "lucide-react";
 
@@ -29,12 +29,12 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ title, description, icon }) =
   const Icon = iconMap[icon] || Award;
 
   return (
-    <div className="group border border-border/50 p-8 hover:border-foreground/30 transition-all duration-500">
-      <div className="mb-6">
-        <Icon className="h-5 w-5 text-foreground opacity-60 group-hover:opacity-100 transition-opacity duration-300" strokeWidth={1.5} />
+    <div className="glass-card rounded-2xl p-8 transition-all duration-500 cursor-default group">
+      <div className="mb-5 w-10 h-10 rounded-xl glass flex items-center justify-center group-hover:border-foreground/15 transition-all duration-300">
+        <Icon className="h-4 w-4 text-foreground/60 group-hover:text-foreground transition-colors duration-300" strokeWidth={1.5} />
       </div>
-      <h3 className="text-lg font-medium text-foreground mb-3 tracking-tight">{title}</h3>
-      <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
+      <h3 className="text-base font-medium text-foreground mb-2.5 tracking-tight">{title}</h3>
+      <p className="text-sm text-foreground/40 leading-relaxed">{description}</p>
     </div>
   );
 };
