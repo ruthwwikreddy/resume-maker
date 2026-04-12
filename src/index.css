@@ -8,10 +8,10 @@
     --background: 0 0% 0%;
     --foreground: 0 0% 100%;
 
-    --card: 0 0% 4%;
+    --card: 0 0% 100%;
     --card-foreground: 0 0% 100%;
 
-    --popover: 0 0% 4%;
+    --popover: 0 0% 5%;
     --popover-foreground: 0 0% 100%;
 
     --primary: 0 0% 100%;
@@ -20,26 +20,32 @@
     --secondary: 0 0% 8%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 0 0% 10%;
+    --muted: 0 0% 12%;
     --muted-foreground: 0 0% 55%;
 
-    --accent: 0 0% 12%;
+    --accent: 210 100% 60%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 15%;
+    --border: 0 0% 100%;
     --input: 0 0% 15%;
     --ring: 0 0% 100%;
 
-    --radius: 0.25rem;
+    --radius: 1rem;
+
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-bg-hover: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-border-hover: rgba(255, 255, 255, 0.15);
+    --glass-glow: rgba(255, 255, 255, 0.03);
   }
 }
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border/10;
   }
 
   html {
@@ -51,48 +57,116 @@
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
-  /* Utility classes */
-  .resume-transition {
-    @apply transition-all duration-300 ease-in-out;
+  /* Glassmorphism utilities */
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid var(--glass-border);
   }
 
-  .template-card {
-    @apply border border-border hover:border-foreground resume-transition rounded overflow-hidden cursor-pointer;
+  .glass-hover:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--glass-border-hover);
   }
 
-  .template-card.active {
-    @apply border-2 border-foreground;
+  .glass-strong {
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
-  /* Premium link underline reveal */
+  .glass-card {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.06) 0%,
+      rgba(255, 255, 255, 0.02) 100%
+    );
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .glass-card:hover {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.03) 100%
+    );
+    border-color: rgba(255, 255, 255, 0.14);
+    box-shadow:
+      0 12px 40px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+  }
+
+  /* Subtle ambient glow */
+  .glow-spot {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Link underline reveal */
   .link-reveal {
     @apply relative inline-block;
   }
   .link-reveal::after {
     content: '';
-    @apply absolute bottom-0 left-0 w-full h-px bg-foreground origin-bottom-right transition-transform duration-300 scale-x-0;
+    @apply absolute bottom-0 left-0 w-full h-px origin-bottom-right transition-transform duration-300 scale-x-0;
+    background: rgba(255, 255, 255, 0.6);
   }
   .link-reveal:hover::after {
     @apply origin-bottom-left scale-x-100;
   }
 
+  /* Resume template utilities */
+  .resume-transition {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  .template-card {
+    @apply glass-card rounded-xl overflow-hidden cursor-pointer resume-transition;
+  }
+
+  .template-card.active {
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+
   /* Fade-up animation */
   .fade-up {
-    animation: fadeUp 0.6s ease-out both;
+    animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
-  .fade-up-delay-1 { animation-delay: 0.1s; }
-  .fade-up-delay-2 { animation-delay: 0.2s; }
-  .fade-up-delay-3 { animation-delay: 0.3s; }
-  .fade-up-delay-4 { animation-delay: 0.4s; }
+  .fade-up-delay-1 { animation-delay: 0.12s; }
+  .fade-up-delay-2 { animation-delay: 0.24s; }
+  .fade-up-delay-3 { animation-delay: 0.36s; }
+  .fade-up-delay-4 { animation-delay: 0.48s; }
+  .fade-up-delay-5 { animation-delay: 0.60s; }
 }
 
 @keyframes fadeUp {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
