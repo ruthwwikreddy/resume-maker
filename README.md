@@ -1,6 +1,8 @@
-# Resume Generator
+# ResumeGen
 
 A sleek, intuitive, and fully responsive resume builder that allows users to effortlessly create and download professional resumes.
+
+**Founded by [Ruthwik Reddy](https://ruthwikreddy.live)** · [ruthwikreddy.live](https://ruthwikreddy.live)
 
 ## Table of Contents
 

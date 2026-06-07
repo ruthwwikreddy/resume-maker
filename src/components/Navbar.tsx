@@ -2,6 +2,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { FounderLink } from "@/components/FounderCredit";
 
 const navLinkClass = (active: boolean) =>
   cn(
@@ -52,6 +53,10 @@ const Navbar = () => {
             <Link to="/templates" className={navLinkClass(pathname === "/templates")}>
               Templates
             </Link>
+            <FounderLink
+              className="text-[12px] text-foreground/40 hover:text-foreground transition-colors duration-300 underline-offset-2 hover:underline"
+              title="Founder — ruthwikreddy.live"
+            />
             <Link
               to="/builder"
               className="text-[13px] bg-foreground text-background px-5 py-2 rounded-lg font-medium hover:opacity-90 transition-all duration-300"
@@ -88,6 +93,10 @@ const Navbar = () => {
             <Link to="/" className={mobileLinkClass(pathname === "/")} onClick={() => setIsMenuOpen(false)}>Home</Link>
             <Link to="/builder" className={mobileLinkClass(pathname === "/builder")} onClick={() => setIsMenuOpen(false)}>Builder</Link>
             <Link to="/templates" className={mobileLinkClass(pathname === "/templates")} onClick={() => setIsMenuOpen(false)}>Templates</Link>
+            <FounderLink
+              className="text-sm text-foreground/45 hover:text-foreground transition-colors py-2"
+              onClick={() => setIsMenuOpen(false)}
+            />
             <Link to="/builder" className="bg-foreground text-background text-center py-2.5 rounded-lg text-sm font-medium hover:opacity-90 transition-all mt-1" onClick={() => setIsMenuOpen(false)}>
               Get Started
             </Link>

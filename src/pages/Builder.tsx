@@ -5,6 +5,7 @@ import { useResume } from "@/contexts/ResumeContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import PageShell from "@/components/PageShell";
+import { FounderStrip, FoundedBy } from "@/components/FounderCredit";
 import ResumeForm from "@/components/builder/ResumeForm";
 import ResumePreview from "@/components/builder/ResumePreview";
 import ResumeExportSource from "@/components/builder/ResumeExportSource";
@@ -100,6 +101,7 @@ const Builder = () => {
                 <h1 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">
                   Build Your Resume
                 </h1>
+                <FoundedBy className="mt-1 text-[11px]" />
               </div>
 
               <div className="flex items-center gap-2 w-full md:w-auto">
@@ -189,6 +191,7 @@ const Builder = () => {
           </div>
         )}
       </main>
+      <FounderStrip />
     </PageShell>
   );
 };

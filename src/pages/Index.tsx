@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import PageShell from "@/components/PageShell";
 import Footer from "@/components/Footer";
 import FeatureCard from "@/components/FeatureCard";
+import { FounderBadge, FoundedBy } from "@/components/FounderCredit";
 import { ArrowRight, Sparkles } from "lucide-react";
 
 const Index = () => {
@@ -47,11 +48,12 @@ const Index = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
             {/* Left — Text */}
             <div>
-              <div className="fade-up">
-                <span className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 text-[11px] text-foreground/50 uppercase tracking-[0.15em] mb-8">
+              <div className="fade-up flex flex-wrap items-center gap-3 mb-8">
+                <span className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 text-[11px] text-foreground/50 uppercase tracking-[0.15em]">
                   <Sparkles className="h-3 w-3 text-foreground/40" />
                   Resume Builder
                 </span>
+                <FounderBadge />
               </div>
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-foreground tracking-[-0.03em] leading-[1.05] mb-7 fade-up fade-up-delay-1">
                 Build resumes<br />
@@ -60,6 +62,7 @@ const Index = () => {
               <p className="text-base md:text-lg text-foreground/40 max-w-md leading-relaxed mb-10 fade-up fade-up-delay-2">
                 Create clean, professional resumes in minutes. Preview in real-time. Download as PDF. No account required.
               </p>
+              <FoundedBy className="mb-6 fade-up fade-up-delay-2" />
               <div className="flex flex-col sm:flex-row gap-3 fade-up fade-up-delay-3">
                 <Link to="/builder" className="btn-primary px-7 py-3.5">
                   Start Building
@@ -169,6 +172,7 @@ const Index = () => {
                 Create Your Resume
                 <ArrowRight className="h-4 w-4" />
               </Link>
+              <FoundedBy className="mt-8 text-center" prefix="Built by" />
             </div>
           </div>
         </div>

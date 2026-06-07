@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import PageShell from "@/components/PageShell";
 import Footer from "@/components/Footer";
+import { FounderBadge, FoundedBy } from "@/components/FounderCredit";
 import TemplateThumbnail from "@/components/templates/shared/TemplateThumbnail";
 import { TEMPLATES, TEMPLATE_CATEGORIES } from "@/lib/constants";
 import { TemplateName } from "@/lib/types";
@@ -18,10 +19,13 @@ const Templates = () => {
       <main className="pt-32 pb-20 md:pt-40 md:pb-28 px-6">
         <div className="container mx-auto max-w-6xl">
           <div className="max-w-xl mb-16 fade-up">
-            <span className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 text-[11px] text-foreground/50 uppercase tracking-[0.15em] mb-6">
-              <Layout className="h-3 w-3 text-foreground/40" />
-              Templates
-            </span>
+            <div className="flex flex-wrap items-center gap-3 mb-6">
+              <span className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 text-[11px] text-foreground/50 uppercase tracking-[0.15em]">
+                <Layout className="h-3 w-3 text-foreground/40" />
+                Templates
+              </span>
+              <FounderBadge />
+            </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground tracking-[-0.03em] leading-[1.05] mb-5">
               Pick a layout<br />
               <span className="text-foreground/70">that fits you.</span>
@@ -112,6 +116,7 @@ const Templates = () => {
                 Open Builder
                 <ArrowRight className="h-4 w-4" />
               </Link>
+              <FoundedBy className="mt-8 text-center" />
             </div>
           </div>
         </div>

@@ -2,6 +2,7 @@
 import { useLocation, Link } from "react-router-dom";
 import { useEffect } from "react";
 import PageShell from "@/components/PageShell";
+import { FoundedBy } from "@/components/FounderCredit";
 import { ArrowRight } from "lucide-react";
 
 const NotFound = () => {
@@ -37,6 +38,7 @@ const NotFound = () => {
               Return to Home
               <ArrowRight className="h-4 w-4" />
             </Link>
+            <FoundedBy className="mt-8" />
           </div>
         </div>
       </main>
