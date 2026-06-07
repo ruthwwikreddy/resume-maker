@@ -1,16 +1,34 @@
 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
+
+const navLinkClass = (active: boolean) =>
+  cn(
+    "link-reveal text-[13px] transition-colors duration-300",
+    active ? "text-foreground" : "text-foreground/50 hover:text-foreground"
+  );
+
+const mobileLinkClass = (active: boolean) =>
+  cn(
+    "transition-colors py-2 text-sm",
+    active ? "text-foreground" : "text-foreground/50 hover:text-foreground"
+  );
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { pathname } = useLocation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [pathname]);
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 pt-4 md:pt-5">
@@ -24,15 +42,14 @@ const Navbar = () => {
             Resume<span className="font-light opacity-70">Gen</span>
           </Link>
 
-          {/* Desktop */}
           <div className="hidden md:flex items-center gap-7">
-            <Link to="/" className="link-reveal text-[13px] text-foreground/50 hover:text-foreground transition-colors duration-300">
+            <Link to="/" className={navLinkClass(pathname === "/")}>
               Home
             </Link>
-            <Link to="/builder" className="link-reveal text-[13px] text-foreground/50 hover:text-foreground transition-colors duration-300">
+            <Link to="/builder" className={navLinkClass(pathname === "/builder")}>
               Builder
             </Link>
-            <Link to="/templates" className="link-reveal text-[13px] text-foreground/50 hover:text-foreground transition-colors duration-300">
+            <Link to="/templates" className={navLinkClass(pathname === "/templates")}>
               Templates
             </Link>
             <Link
@@ -43,11 +60,11 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Mobile toggle */}
           <button
             className="md:hidden text-foreground/70 hover:text-foreground p-1.5 transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
+            aria-expanded={isMenuOpen}
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
               {isMenuOpen ? (
@@ -66,12 +83,11 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* Mobile menu */}
         {isMenuOpen && (
           <div className="md:hidden border-t border-foreground/5 px-6 py-5 flex flex-col gap-3 animate-fade-in">
-            <Link to="/" className="text-foreground/50 hover:text-foreground transition-colors py-2 text-sm" onClick={() => setIsMenuOpen(false)}>Home</Link>
-            <Link to="/builder" className="text-foreground/50 hover:text-foreground transition-colors py-2 text-sm" onClick={() => setIsMenuOpen(false)}>Builder</Link>
-            <Link to="/templates" className="text-foreground/50 hover:text-foreground transition-colors py-2 text-sm" onClick={() => setIsMenuOpen(false)}>Templates</Link>
+            <Link to="/" className={mobileLinkClass(pathname === "/")} onClick={() => setIsMenuOpen(false)}>Home</Link>
+            <Link to="/builder" className={mobileLinkClass(pathname === "/builder")} onClick={() => setIsMenuOpen(false)}>Builder</Link>
+            <Link to="/templates" className={mobileLinkClass(pathname === "/templates")} onClick={() => setIsMenuOpen(false)}>Templates</Link>
             <Link to="/builder" className="bg-foreground text-background text-center py-2.5 rounded-lg text-sm font-medium hover:opacity-90 transition-all mt-1" onClick={() => setIsMenuOpen(false)}>
               Get Started
             </Link>

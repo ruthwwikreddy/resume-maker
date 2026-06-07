@@ -1,8 +1,8 @@
 
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import PageShell from "@/components/PageShell";
+import { ArrowRight } from "lucide-react";
 
 const NotFound = () => {
   const location = useLocation();
@@ -15,20 +15,32 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center p-8 max-w-md">
-        <h1 className="text-6xl font-bold mb-4 text-resume-blue">404</h1>
-        <p className="text-xl text-white mb-6">Oops! We couldn't find the page you're looking for.</p>
-        <p className="text-gray-400 mb-8">
-          The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
-        </p>
-        <Link to="/">
-          <Button className="bg-resume-blue hover:bg-resume-blue/90 text-white">
-            Return to Home
-          </Button>
-        </Link>
-      </div>
-    </div>
+    <PageShell>
+      <main className="flex-grow flex items-center justify-center px-6 pt-32 pb-20">
+        <div className="glass-card rounded-3xl p-12 md:p-16 text-center max-w-md relative overflow-hidden fade-up">
+          <div className="absolute inset-0 bg-gradient-to-br from-foreground/[0.03] via-transparent to-foreground/[0.02] pointer-events-none" />
+          <div className="relative z-10">
+            <p className="section-label mb-4">Error 404</p>
+            <h1 className="text-6xl md:text-7xl font-bold text-foreground tracking-tight mb-4">
+              404
+            </h1>
+            <p className="text-lg text-foreground/70 mb-3">
+              Page not found
+            </p>
+            <p className="text-sm text-foreground/40 mb-8 leading-relaxed">
+              The page you're looking for might have been removed, renamed, or is temporarily unavailable.
+            </p>
+            <Link
+              to="/"
+              className="btn-primary px-8 py-3.5"
+            >
+              Return to Home
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+      </main>
+    </PageShell>
   );
 };
 

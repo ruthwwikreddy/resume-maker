@@ -35,24 +35,24 @@ const CertificationsForm = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold">Certifications</h2>
+        <h2 className="text-xl font-semibold text-foreground tracking-tight">Certifications</h2>
         <Button 
           onClick={handleAddCertification}
           variant="outline" 
-          className="border-resume-blue text-resume-blue hover:bg-resume-blue/10"
+          className="border-foreground/15 text-foreground hover:bg-foreground/5 rounded-xl"
         >
           <Plus className="h-4 w-4 mr-2" /> Add Certification
         </Button>
       </div>
       
       {certifications.length === 0 ? (
-        <div className="text-center p-8 border border-dashed border-gray-600 rounded-lg">
-          <p className="text-gray-400">No certifications added yet. Click the button above to add one.</p>
+        <div className="empty-state">
+          <p>No certifications added yet. Click the button above to add one.</p>
         </div>
       ) : (
         <div className="space-y-4">
           {certifications.map((cert, index) => (
-            <Card key={cert.id} className="bg-card border-border">
+            <Card key={cert.id} className="form-card border-foreground/10 bg-transparent shadow-none">
               <CardHeader className="flex flex-row items-center justify-between py-3">
                 <CardTitle className="text-lg">
                   {cert.name || "New Certification"}

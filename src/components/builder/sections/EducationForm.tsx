@@ -38,24 +38,24 @@ const EducationForm = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold">Education</h2>
+        <h2 className="text-xl font-semibold text-foreground tracking-tight">Education</h2>
         <Button 
           onClick={handleAddEducation}
           variant="outline" 
-          className="border-resume-blue text-resume-blue hover:bg-resume-blue/10"
+          className="border-foreground/15 text-foreground hover:bg-foreground/5 rounded-xl"
         >
           <Plus className="h-4 w-4 mr-2" /> Add Education
         </Button>
       </div>
       
       {education.length === 0 ? (
-        <div className="text-center p-8 border border-dashed border-gray-600 rounded-lg">
-          <p className="text-gray-400">No education entries yet. Click the button above to add one.</p>
+        <div className="empty-state">
+          <p>No education entries yet. Click the button above to add one.</p>
         </div>
       ) : (
         <div className="space-y-4">
           {education.map((edu, index) => (
-            <Card key={edu.id} className="bg-card border-border">
+            <Card key={edu.id} className="form-card border-foreground/10 bg-transparent shadow-none">
               <CardHeader className="flex flex-row items-center justify-between py-3">
                 <CardTitle className="text-lg">
                   {edu.institution || "New Education Entry"}

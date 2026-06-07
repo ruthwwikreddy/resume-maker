@@ -31,17 +31,17 @@ const Footer = () => {
           <div>
             <h3 className="text-[11px] font-medium text-foreground/50 uppercase tracking-[0.2em] mb-4">Resources</h3>
             <ul className="space-y-2.5">
-              <li><Link to="#" className="text-sm text-foreground/35 hover:text-foreground transition-colors duration-300">Resume Tips</Link></li>
-              <li><Link to="#" className="text-sm text-foreground/35 hover:text-foreground transition-colors duration-300">Career Advice</Link></li>
-              <li><Link to="#" className="text-sm text-foreground/35 hover:text-foreground transition-colors duration-300">FAQ</Link></li>
+              <li><Link to="/builder" className="text-sm text-foreground/35 hover:text-foreground transition-colors duration-300">Resume Tips</Link></li>
+              <li><Link to="/templates" className="text-sm text-foreground/35 hover:text-foreground transition-colors duration-300">Choose a Template</Link></li>
+              <li><Link to="/builder" className="text-sm text-foreground/35 hover:text-foreground transition-colors duration-300">FAQ</Link></li>
             </ul>
           </div>
 
           <div>
             <h3 className="text-[11px] font-medium text-foreground/50 uppercase tracking-[0.2em] mb-4">Legal</h3>
             <ul className="space-y-2.5">
-              <li><Link to="#" className="text-sm text-foreground/35 hover:text-foreground transition-colors duration-300">Privacy</Link></li>
-              <li><Link to="#" className="text-sm text-foreground/35 hover:text-foreground transition-colors duration-300">Terms</Link></li>
+              <li><span className="text-sm text-foreground/35">Privacy</span></li>
+              <li><span className="text-sm text-foreground/35">Terms</span></li>
             </ul>
           </div>
         </div>

@@ -1,6 +1,9 @@
 
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { defaultResumeData } from "@/lib/constants";
+import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from "react";
+import { defaultResumeData, DEFAULT_TEMPLATE } from "@/lib/constants";
+import { parseTemplateName } from "@/lib/templates";
+import { sanitizeColorScheme } from "@/lib/colorUtils";
+import { sanitizeResumeData } from "@/lib/sanitizeResumeData";
 import type { ResumeData, TemplateName } from "@/lib/types";
 
 export type ColorScheme = {
@@ -11,10 +14,10 @@ export type ColorScheme = {
 };
 
 export const DEFAULT_COLOR_SCHEME: ColorScheme = {
-  primary: "#007BFF",
-  secondary: "#222222",
-  background: "#FFFFFF",
-  text: "#333333"
+  primary: "#000000",
+  secondary: "#000000",
+  background: "#ffffff",
+  text: "#000000",
 };
 
 interface ResumeContextType {
@@ -42,6 +45,8 @@ interface ResumeContextType {
   colorScheme: ColorScheme;
   setColorScheme: (scheme: ColorScheme) => void;
   resetResumeData: () => void;
+  resetAll: () => void;
+  isHydrated: boolean;
 }
 
 const ResumeContext = createContext<ResumeContextType | undefined>(undefined);
@@ -58,52 +63,53 @@ export const ResumeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [resumeData, setResumeData] = useState<ResumeData>(defaultResumeData);
-  const [selectedTemplate, setSelectedTemplate] = useState<TemplateName>("modern");
+  const [selectedTemplate, setSelectedTemplate] = useState<TemplateName>(DEFAULT_TEMPLATE);
   const [colorScheme, setColorScheme] = useState<ColorScheme>(DEFAULT_COLOR_SCHEME);
+  const [isHydrated, setIsHydrated] = useState(false);
+  const skipSave = useRef(true);
 
-  // Load saved data from localStorage on initial render
   useEffect(() => {
     const savedData = localStorage.getItem("resumeData");
     const savedTemplate = localStorage.getItem("selectedTemplate");
     const savedColorScheme = localStorage.getItem("colorScheme");
-    
+
     if (savedData) {
       try {
-        setResumeData(JSON.parse(savedData));
-      } catch (e) {
-        console.error("Failed to parse saved resume data:", e);
-        // If parsing fails, use default data
+        setResumeData(sanitizeResumeData(JSON.parse(savedData)));
+      } catch {
         setResumeData(defaultResumeData);
       }
     }
-    
-    if (savedTemplate) {
-      setSelectedTemplate(savedTemplate as TemplateName);
+
+    const parsedTemplate = parseTemplateName(savedTemplate);
+    if (parsedTemplate) {
+      setSelectedTemplate(parsedTemplate);
     }
-    
+
     if (savedColorScheme) {
       try {
-        setColorScheme(JSON.parse(savedColorScheme));
-      } catch (e) {
-        console.error("Failed to parse saved color scheme:", e);
-        // If parsing fails, use default color scheme
+        setColorScheme(sanitizeColorScheme(JSON.parse(savedColorScheme)));
+      } catch {
         setColorScheme(DEFAULT_COLOR_SCHEME);
       }
     }
+
+    skipSave.current = false;
+    setIsHydrated(true);
   }, []);
 
-  // Save data to localStorage whenever it changes
   useEffect(() => {
+    if (skipSave.current) return;
     localStorage.setItem("resumeData", JSON.stringify(resumeData));
   }, [resumeData]);
 
-  // Save template whenever it changes
   useEffect(() => {
+    if (skipSave.current) return;
     localStorage.setItem("selectedTemplate", selectedTemplate);
   }, [selectedTemplate]);
-  
-  // Save color scheme whenever it changes
+
   useEffect(() => {
+    if (skipSave.current) return;
     localStorage.setItem("colorScheme", JSON.stringify(colorScheme));
   }, [colorScheme]);
 
@@ -117,7 +123,7 @@ export const ResumeProvider: React.FC<{ children: React.ReactNode }> = ({
   ) => {
     setResumeData((prev) => ({
       ...prev,
-      [section]: { ...prev[section], ...data },
+      [section]: { ...(prev[section] as object), ...data },
     }));
   };
 
@@ -168,9 +174,19 @@ export const ResumeProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   };
 
-  const resetResumeData = () => {
+  const resetResumeData = useCallback(() => {
     setResumeData(defaultResumeData);
-  };
+  }, []);
+
+  const resetAll = useCallback(() => {
+    setResumeData(defaultResumeData);
+    setSelectedTemplate(DEFAULT_TEMPLATE);
+    setColorScheme(DEFAULT_COLOR_SCHEME);
+  }, []);
+
+  const applyColorScheme = useCallback((scheme: ColorScheme) => {
+    setColorScheme(sanitizeColorScheme(scheme));
+  }, []);
 
   return (
     <ResumeContext.Provider
@@ -184,8 +200,10 @@ export const ResumeProvider: React.FC<{ children: React.ReactNode }> = ({
         selectedTemplate,
         setSelectedTemplate,
         colorScheme,
-        setColorScheme,
+        setColorScheme: applyColorScheme,
         resetResumeData,
+        resetAll,
+        isHydrated,
       }}
     >
       {children}

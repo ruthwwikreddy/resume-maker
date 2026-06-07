@@ -1,56 +1,60 @@
 
 import React from "react";
 import { useResume } from "@/contexts/ResumeContext";
-import { Card } from "@/components/ui/card";
 import { TEMPLATES } from "@/lib/constants";
 import { TemplateName } from "@/lib/types";
+import TemplateThumbnail from "@/components/templates/shared/TemplateThumbnail";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Check } from "lucide-react";
 
 const TemplateSelector = () => {
   const { selectedTemplate, setSelectedTemplate } = useResume();
-  
+
   const handleTemplateSelect = (templateId: TemplateName) => {
     setSelectedTemplate(templateId);
   };
-  
+
   return (
-    <div className="mb-8">
-      <h2 className="text-xl font-semibold mb-4">Choose a Template</h2>
-      
+    <div>
+      <p className="section-label mb-2">Template</p>
+      <h2 className="text-lg font-semibold text-foreground tracking-tight mb-1">
+        Choose a Template
+      </h2>
+      <p className="text-sm text-foreground/40 mb-4">
+        Start with <span className="text-foreground/60">Minimal</span> for a clean professional base —{" "}
+        {TEMPLATES.length} layouts available
+      </p>
+
       <Carousel className="w-full">
-        <CarouselContent>
+        <CarouselContent className="-ml-3">
           {TEMPLATES.map((template) => (
-            <CarouselItem key={template.id} className="basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 pl-4">
-              <Card
-                className={`template-card overflow-hidden ${
-                  selectedTemplate === template.id ? "active" : ""
+            <CarouselItem key={template.id} className="pl-3 basis-[45%] sm:basis-[38%] md:basis-[30%] lg:basis-[22%]">
+              <div
+                className={`template-card no-hover overflow-hidden rounded-xl cursor-pointer transition-all duration-300 ${
+                  selectedTemplate === template.id ? "active ring-2 ring-foreground/30" : ""
                 }`}
                 onClick={() => handleTemplateSelect(template.id as TemplateName)}
               >
-                <div className="relative aspect-[3/4] bg-card">
-                  <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-                    {/* Image placeholder - in a real app, this would be the template preview */}
-                    <div className="text-center">
-                      <div className="w-16 h-24 mx-auto border-2 border-dashed border-gray-600 mb-2 flex items-center justify-center">
-                        {template.id.charAt(0).toUpperCase()}
-                      </div>
-                      <div className="font-medium">{template.name}</div>
-                    </div>
+                <div className="relative p-3">
+                  <TemplateThumbnail templateId={template.id as TemplateName} size="md" />
+
+                  <div className="mt-2.5">
+                    <p className="text-[10px] uppercase tracking-wider text-foreground/35">{template.tag}</p>
+                    <p className="text-sm font-medium text-foreground/80">{template.name}</p>
                   </div>
-                  
+
                   {selectedTemplate === template.id && (
-                    <div className="absolute top-2 right-2 bg-resume-blue rounded-full p-1">
-                      <Check className="h-4 w-4 text-white" />
+                    <div className="absolute top-5 right-5 bg-foreground rounded-full p-1 shadow-lg">
+                      <Check className="h-3.5 w-3.5 text-background" />
                     </div>
                   )}
                 </div>
-              </Card>
+              </div>
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="left-1" />
-        <CarouselNext className="right-1" />
+        <CarouselPrevious className="left-0 glass border-foreground/10 text-foreground hover:bg-foreground/10" />
+        <CarouselNext className="right-0 glass border-foreground/10 text-foreground hover:bg-foreground/10" />
       </Carousel>
     </div>
   );

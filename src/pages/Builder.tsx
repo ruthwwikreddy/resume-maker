@@ -1,72 +1,65 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useResume } from "@/contexts/ResumeContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import Navbar from "@/components/Navbar";
+import PageShell from "@/components/PageShell";
 import ResumeForm from "@/components/builder/ResumeForm";
 import ResumePreview from "@/components/builder/ResumePreview";
+import ResumeExportSource from "@/components/builder/ResumeExportSource";
 import TemplateSelector from "@/components/builder/TemplateSelector";
-import { DownloadIcon, EyeIcon, PenIcon, LayoutIcon } from "lucide-react";
+import { parseTemplateName } from "@/lib/templates";
+import { exportResumeToPdf, buildResumeFileName } from "@/lib/exportPdf";
+import { DownloadIcon, EyeIcon, PenIcon, RotateCcw, Loader2 } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
 
 const Builder = () => {
-  const { resumeData, selectedTemplate } = useResume();
+  const { resumeData, colorScheme, setSelectedTemplate, resetAll, isHydrated } = useResume();
+  const [searchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState("edit");
+  const [isExporting, setIsExporting] = useState(false);
   const isMobile = useIsMobile();
-  const resumePreviewRef = React.useRef<HTMLDivElement>(null);
 
-  const handleDownload = async () => {
+  const handleDownload = useCallback(async () => {
+    if (isExporting) return;
+
+    setIsExporting(true);
+
     toast.info("Generating PDF", {
       description: "Your resume is being prepared for download",
-      duration: 2000,
     });
-    
+
     try {
-      setTimeout(async () => {
-        const resumeElement = document.querySelector(".resume-preview-content");
-        if (!resumeElement) {
-          throw new Error("Resume element not found");
-        }
-        
-        const canvas = await html2canvas(resumeElement as HTMLElement, {
-          scale: 2,
-          useCORS: true,
-          allowTaint: true,
-          backgroundColor: "#ffffff",
-        });
-        
-        const imgData = canvas.toDataURL('image/png');
-        
-        const pdf = new jsPDF({
-          orientation: 'portrait',
-          unit: 'mm',
-          format: 'a4'
-        });
-        
-        const imgWidth = 210; // A4 width in mm
-        const pageHeight = 297; // A4 height in mm
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-        
-        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-        
-        const fileName = `${resumeData.personalInfo.firstName}-${resumeData.personalInfo.lastName}-Resume.pdf`;
-        pdf.save(fileName);
-        
-        toast.success("Resume Downloaded", {
-          description: "Your resume has been successfully downloaded",
-          duration: 3000,
-        });
-      }, 1000);
-    } catch (error) {
-      console.error("Error generating PDF:", error);
-      toast.error("Download Failed", {
-        description: "There was a problem generating your resume PDF",
-        duration: 3000,
+      if (document.fonts?.ready) {
+        await document.fonts.ready;
+      }
+      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+
+      await exportResumeToPdf({
+        fileName: buildResumeFileName(
+          resumeData.personalInfo.firstName,
+          resumeData.personalInfo.lastName
+        ),
+        backgroundColor: colorScheme.background,
       });
+
+      toast.success("Resume downloaded", {
+        description: "Your PDF is ready",
+      });
+    } catch (error) {
+      toast.error("Download failed", {
+        description: error instanceof Error ? error.message : "Please try again",
+      });
+    } finally {
+      setIsExporting(false);
+    }
+  }, [isExporting, resumeData.personalInfo, colorScheme.background]);
+
+  const handleReset = () => {
+    if (window.confirm("Reset all resume data, template, and colors to defaults?")) {
+      resetAll();
+      toast.success("Resume reset", { description: "Starting fresh with default content" });
     }
   };
 
@@ -74,86 +67,129 @@ const Builder = () => {
     document.title = "Resume Builder | ResumeGen";
   }, []);
 
+  useEffect(() => {
+    if (!isHydrated) return;
+    const templateParam = parseTemplateName(searchParams.get("template"));
+    if (templateParam) {
+      setSelectedTemplate(templateParam);
+    }
+  }, [searchParams, setSelectedTemplate, isHydrated]);
+
+  if (!isHydrated) {
+    return (
+      <PageShell>
+        <main className="flex-grow flex items-center justify-center pt-32 pb-20">
+          <div className="flex flex-col items-center gap-3 text-foreground/50">
+            <Loader2 className="h-8 w-8 animate-spin" />
+            <p className="text-sm">Loading your resume…</p>
+          </div>
+        </main>
+      </PageShell>
+    );
+  }
+
   return (
-    <div className="min-h-screen flex flex-col bg-background">
-      <Navbar />
-      
-      <main className="flex-grow flex flex-col">
-        {/* Builder Header */}
-        <div className="bg-card border-b border-border p-4">
-          <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <h1 className="text-2xl font-bold">Build Your Resume</h1>
-            
-            <div className="flex items-center gap-2">
-              {/* Mobile Tabs */}
-              {isMobile && (
-                <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full md:hidden">
-                  <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="edit" className="data-[state=active]:bg-resume-blue data-[state=active]:text-white">
-                      <PenIcon className="mr-2 h-4 w-4" />
-                      Edit
-                    </TabsTrigger>
-                    <TabsTrigger value="preview" className="data-[state=active]:bg-resume-blue data-[state=active]:text-white">
-                      <EyeIcon className="mr-2 h-4 w-4" />
-                      Preview
-                    </TabsTrigger>
-                  </TabsList>
-                </Tabs>
-              )}
-              
-              {/* Download Button */}
-              <Button 
-                className="bg-resume-blue hover:bg-resume-blue/90 text-white gap-2"
-                onClick={handleDownload}
-              >
-                <DownloadIcon className="h-4 w-4" />
-                Download PDF
-              </Button>
+    <PageShell>
+      <ResumeExportSource />
+      <main className="flex-grow flex flex-col pt-24 md:pt-28 min-h-0">
+        <div className="px-4 pb-4 shrink-0">
+          <div className="container mx-auto max-w-7xl">
+            <div className="glass-strong rounded-2xl px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+              <div>
+                <p className="section-label mb-1">Builder</p>
+                <h1 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">
+                  Build Your Resume
+                </h1>
+              </div>
+
+              <div className="flex items-center gap-2 w-full md:w-auto">
+                <button
+                  type="button"
+                  className="btn-glass px-4 py-2.5"
+                  onClick={handleReset}
+                  title="Reset to defaults"
+                >
+                  <RotateCcw className="h-4 w-4" />
+                  <span className="hidden sm:inline">Reset</span>
+                </button>
+                <button
+                  type="button"
+                  className="btn-primary px-5 py-2.5 flex-1 md:flex-none disabled:opacity-50"
+                  onClick={handleDownload}
+                  disabled={isExporting}
+                >
+                  {isExporting ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <DownloadIcon className="h-4 w-4" />
+                  )}
+                  {isExporting ? "Exporting…" : "Download PDF"}
+                </button>
+              </div>
             </div>
           </div>
         </div>
-        
+
         {isMobile ? (
-          <div className="flex-grow container mx-auto p-4">
-            <TabsContent value="edit" className={activeTab === "edit" ? "block" : "hidden"}>
-              <div className="mb-6">
-                <TemplateSelector />
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-grow flex flex-col min-h-0">
+            <div className="px-4 pb-4 shrink-0">
+              <div className="container mx-auto max-w-7xl">
+                <TabsList className="builder-tabs-list grid w-full grid-cols-2 rounded-xl p-1 h-11">
+                  <TabsTrigger
+                    value="edit"
+                    className="builder-tab-active rounded-lg data-[state=inactive]:text-foreground/50"
+                  >
+                    <PenIcon className="mr-2 h-4 w-4" />
+                    Edit
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="preview"
+                    className="builder-tab-active rounded-lg data-[state=inactive]:text-foreground/50"
+                  >
+                    <EyeIcon className="mr-2 h-4 w-4" />
+                    Preview
+                  </TabsTrigger>
+                </TabsList>
               </div>
-              <ResumeForm />
-            </TabsContent>
-            
-            <TabsContent value="preview" className={activeTab === "preview" ? "block" : "hidden"}>
-              <div ref={resumePreviewRef} className="resume-preview-wrapper">
-                <div className="resume-preview-content">
-                  <ResumePreview />
-                </div>
-              </div>
-            </TabsContent>
-          </div>
-        ) : (
-          <div className="flex-grow flex">
-            {/* Left Side - Editor */}
-            <div className="w-1/2 overflow-y-auto border-r border-border p-6">
-              <div className="max-w-xl mx-auto">
-                <div className="mb-6">
+            </div>
+
+            <div className="flex-grow container mx-auto max-w-7xl px-4 pb-8 overflow-y-auto">
+              <TabsContent value="edit" className="mt-0 space-y-4">
+                <div className="glass-card rounded-2xl p-5 md:p-6">
                   <TemplateSelector />
                 </div>
+                <div className="glass-card rounded-2xl p-5 md:p-6">
+                  <ResumeForm />
+                </div>
+              </TabsContent>
+
+              <TabsContent value="preview" className="mt-0 h-full">
+                <div className="glass-strong rounded-2xl overflow-hidden border border-foreground/[0.06] h-[calc(100vh-14rem)] min-h-[480px]">
+                  <ResumePreview className="h-full" />
+                </div>
+              </TabsContent>
+            </div>
+          </Tabs>
+        ) : (
+          <div className="flex-grow flex container mx-auto max-w-7xl px-4 pb-8 gap-4 min-h-0 overflow-hidden">
+            <div className="w-1/2 overflow-y-auto pr-1">
+              <div className="glass-card rounded-2xl p-6 mb-4">
+                <TemplateSelector />
+              </div>
+              <div className="glass-card rounded-2xl p-6">
                 <ResumeForm />
               </div>
             </div>
-            
-            {/* Right Side - Preview */}
-            <div className="w-1/2 overflow-y-auto bg-muted p-6">
-              <div ref={resumePreviewRef} className="sticky top-0 resume-preview-wrapper">
-                <div className="resume-preview-content">
-                  <ResumePreview />
-                </div>
+
+            <div className="w-1/2 flex flex-col min-h-0 pl-1">
+              <div className="sticky top-24 z-10 flex flex-col h-[calc(100vh-7.5rem)] glass-strong rounded-2xl overflow-hidden border border-foreground/[0.06] shadow-[0_8px_32px_rgba(0,0,0,0.35)]">
+                <ResumePreview className="flex-1 min-h-0" />
               </div>
             </div>
           </div>
         )}
       </main>
-    </div>
+    </PageShell>
   );
 };
 

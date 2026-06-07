@@ -1,10 +1,15 @@
 
-export type TemplateName = 
-  | "modern" 
-  | "professional" 
-  | "minimal" 
-  | "creative" 
-  | "executive";
+export type TemplateName =
+  | "minimal"
+  | "classic"
+  | "professional"
+  | "modern"
+  | "executive"
+  | "elegant"
+  | "compact"
+  | "academic"
+  | "tech"
+  | "creative";
 
 export interface PersonalInfo {
   firstName: string;

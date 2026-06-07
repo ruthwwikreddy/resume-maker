@@ -53,7 +53,6 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				'resume-blue': '#007BFF',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

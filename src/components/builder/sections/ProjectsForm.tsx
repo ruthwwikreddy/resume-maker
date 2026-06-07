@@ -77,24 +77,24 @@ const ProjectsForm = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold">Projects</h2>
+        <h2 className="text-xl font-semibold text-foreground tracking-tight">Projects</h2>
         <Button 
           onClick={handleAddProject}
           variant="outline" 
-          className="border-resume-blue text-resume-blue hover:bg-resume-blue/10"
+          className="border-foreground/15 text-foreground hover:bg-foreground/5 rounded-xl"
         >
           <Plus className="h-4 w-4 mr-2" /> Add Project
         </Button>
       </div>
       
       {projects.length === 0 ? (
-        <div className="text-center p-8 border border-dashed border-gray-600 rounded-lg">
-          <p className="text-gray-400">No projects added yet. Click the button above to add one.</p>
+        <div className="empty-state">
+          <p>No projects added yet. Click the button above to add one.</p>
         </div>
       ) : (
         <div className="space-y-4">
           {projects.map((project, index) => (
-            <Card key={project.id} className="bg-card border-border">
+            <Card key={project.id} className="form-card border-foreground/10 bg-transparent shadow-none">
               <CardHeader className="flex flex-row items-center justify-between py-3">
                 <CardTitle className="text-lg">
                   {project.name || "New Project"}
@@ -190,7 +190,7 @@ const ProjectsForm = () => {
                       onKeyDown={(e) => handleTechKeyDown(e, index)}
                     />
                   </div>
-                  <p className="text-xs text-gray-400 mt-1">
+                  <p className="text-xs text-foreground/40 mt-1">
                     Press Enter, comma, or semicolon after each technology to add it to the list
                   </p>
                 </div>

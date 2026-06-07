@@ -2,37 +2,107 @@
 import { ResumeData, TemplateName } from "./types";
 import { v4 as uuidv4 } from 'uuid';
 
+export const DEFAULT_TEMPLATE: TemplateName = "minimal";
+
+export const TEMPLATE_CATEGORIES = [
+  {
+    id: "essential",
+    label: "Essential",
+    description: "Clean, recruiter-ready layouts to start with",
+  },
+  {
+    id: "executive",
+    label: "Executive",
+    description: "Refined designs for senior and leadership roles",
+  },
+  {
+    id: "specialized",
+    label: "Specialized",
+    description: "Tailored formats for specific industries",
+  },
+] as const;
+
 export const TEMPLATES = [
   {
-    id: "modern",
-    name: "Modern",
-    image: "/modern-template.png",
-    description: "A clean, contemporary design with a sidebar and modern typography."
+    id: "minimal",
+    name: "Minimal",
+    image: "/minimal-template.png",
+    description: "Clean, understated layout with generous whitespace — the ideal starting point.",
+    tag: "Recommended",
+    category: "essential",
+  },
+  {
+    id: "classic",
+    name: "Classic",
+    image: "/classic-template.png",
+    description: "Timeless single-column format — maximum ATS compatibility and recruiter familiarity.",
+    tag: "ATS-Friendly",
+    category: "essential",
   },
   {
     id: "professional",
     name: "Professional",
     image: "/professional-template.png",
-    description: "Traditional layout with a formal style, ideal for corporate roles."
+    description: "Traditional layout with a formal style, ideal for corporate roles.",
+    tag: "Corporate",
+    category: "essential",
   },
   {
-    id: "minimal",
-    name: "Minimal",
-    image: "/minimal-template.png",
-    description: "Simple, elegant design with minimalist styling and clean lines."
-  },
-  {
-    id: "creative",
-    name: "Creative",
-    image: "/creative-template.png",
-    description: "Bold design with unique elements, perfect for creative industries."
+    id: "modern",
+    name: "Modern",
+    image: "/modern-template.png",
+    description: "Contemporary design with balanced typography — polished without being flashy.",
+    tag: "Contemporary",
+    category: "essential",
   },
   {
     id: "executive",
     name: "Executive",
     image: "/executive-template.png",
-    description: "Sophisticated layout with premium styling for senior positions."
-  }
+    description: "Sophisticated layout with premium styling for senior positions.",
+    tag: "Leadership",
+    category: "executive",
+  },
+  {
+    id: "elegant",
+    name: "Elegant",
+    image: "/elegant-template.png",
+    description: "Refined serif typography with generous whitespace for a polished, premium feel.",
+    tag: "Premium",
+    category: "executive",
+  },
+  {
+    id: "compact",
+    name: "Compact",
+    image: "/compact-template.png",
+    description: "Space-efficient two-column layout that fits more experience on one page.",
+    tag: "One-Page",
+    category: "executive",
+  },
+  {
+    id: "academic",
+    name: "Academic",
+    image: "/academic-template.png",
+    description: "Education-first structure ideal for researchers, graduates, and academic roles.",
+    tag: "Education",
+    category: "specialized",
+  },
+  {
+    id: "tech",
+    name: "Tech",
+    image: "/tech-template.png",
+    description: "Developer-optimized layout with prominent skills and project highlights.",
+    tag: "Engineering",
+    category: "specialized",
+  },
+  {
+    id: "creative",
+    name: "Creative",
+    image: "/creative-template.png",
+    description: "Bold design with unique elements, perfect for creative industries.",
+    tag: "Creative",
+    category: "specialized",
+  },
 ];
 
 export const defaultResumeData: ResumeData = {
@@ -168,6 +238,26 @@ export const TEMPLATE_FONTS = {
   },
   executive: {
     heading: "font-merriweather",
-    body: "font-roboto"
-  }
+    body: "font-roboto",
+  },
+  classic: {
+    heading: "font-merriweather",
+    body: "font-open-sans",
+  },
+  compact: {
+    heading: "font-inter",
+    body: "font-roboto",
+  },
+  elegant: {
+    heading: "font-playfair",
+    body: "font-lato",
+  },
+  academic: {
+    heading: "font-merriweather",
+    body: "font-open-sans",
+  },
+  tech: {
+    heading: "font-inter",
+    body: "font-roboto",
+  },
 };
